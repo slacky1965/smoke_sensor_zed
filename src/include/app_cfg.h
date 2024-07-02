@@ -66,7 +66,7 @@ extern "C" {
 
 #define DEBUG_REPORTING                 OFF
 #define DEBUG_SMOKE                     ON
-#define DEBUG_BATTERY                   OFF
+#define DEBUG_BATTERY                   ON
 #define DEBUG_PM                        OFF
 #define DEBUG_OTA                       OFF
 #define DEBUG_STA_STATUS                OFF
@@ -160,16 +160,8 @@ extern "C" {
  * we need to configure the detection IO port, and the IO must be connected to the target under test,
  * such as VCC.
  */
-#define VOLTAGE_DETECT_ENABLE						ON
-
-#if defined(MCU_CORE_826x)
-    #define VOLTAGE_DETECT_ADC_PIN                  0
-#elif defined(MCU_CORE_8258) || defined(MCU_CORE_8278)
-    #define VOLTAGE_DETECT_ADC_PIN                  GPIO_PD3
-//    #define VOLTAGE_DETECT_ADC_PIN                  GPIO_PC4
-#elif defined(MCU_CORE_B91)
-    #define VOLTAGE_DETECT_ADC_PIN                  ADC_GPIO_PB0
-#endif
+#define VOLTAGE_DETECT_ENABLE						OFF
+#define VOLTAGE_DETECT_ADC_PIN                      VOLTAGE_DETECT_PIN
 
 
 /* Watch dog module */
