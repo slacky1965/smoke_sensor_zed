@@ -2,11 +2,25 @@
 #define SRC_INCLUDE_BOARD_8258_DIY_H_
 
 /************************* Configure SMOKE GPIO **************************************/
-#define SMOKE_GPIO              GPIO_PC4    // BUTTON 2 on board
+#define ALARM_GPIO              GPIO_PC4    // BUTTON 2 on board
 #define PC4_FUNC                AS_GPIO
 #define PC4_OUTPUT_ENABLE       OFF
 #define PC4_INPUT_ENABLE        ON
 #define PULL_WAKEUP_SRC_PC4     PM_PIN_PULLUP_1M //PM_PIN_PULLUP_10K //
+
+#define TAMPER_GPIO             GPIO_PC3
+#define PC3_FUNC                AS_GPIO
+#define PC3_OUTPUT_ENABLE       OFF
+#define PC3_INPUT_ENABLE        ON
+#define PULL_WAKEUP_SRC_PC3     PM_PIN_PULLUP_1M //PM_PIN_PULLUP_10K //
+
+/********************* Configure External Battery GPIO ******************************/
+#define VOLTAGE_DETECT_PIN      GPIO_PB1
+#define VOLTAGE_DIVISOR_PIN_EN  GPIO_PB5
+#define PB5_FUNC                AS_GPIO
+#define PB5_OUTPUT_ENABLE       ON
+#define PB5_INPUT_ENABLE        OFF
+#define PULL_WAKEUP_SRC_PB5     PM_PIN_PULLDOWN_100K
 
 /************************* Configure KEY GPIO ***************************************/
 #define MAX_BUTTON_NUM  1
