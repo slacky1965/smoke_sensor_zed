@@ -147,8 +147,7 @@ void user_app_init(void)
     start_message();
 
     batteryCb(NULL);
-    g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, BATTERY_TIMER_INTERVAL);
-
+    g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, 5000 /*BATTERY_TIMER_INTERVAL*/);
 
 //#if UART_PRINTF_MODE
 //    printf("IMAGE_TYPE: 0x%x\r\n", IMAGE_TYPE);
@@ -224,6 +223,8 @@ void user_init(bool isRetention)
     app_wakeupPinConfig();
 #endif
 
+    battery_init();
+
     if(!isRetention){
         /* Initialize Stack */
         stack_init();
@@ -265,7 +266,6 @@ void user_init(bool isRetention)
     }else{
         /* Re-config phy when system recovery from deep sleep with retention */
         mac_phyReconfig();
-
     }
 }
 
