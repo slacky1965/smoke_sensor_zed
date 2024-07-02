@@ -6,5 +6,6 @@
 #define BATTERY_TIMER_INTERVAL  TIMEOUT_15MIN
 
 int32_t batteryCb(void *arg);
+void battery_init();
 
 #endif /* SRC_INCLUDE_APP_BATTERY_H_ */
