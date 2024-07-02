@@ -1,57 +1,51 @@
 #ifndef SRC_INCLUDE_BOARD_8258_DIY_H_
 #define SRC_INCLUDE_BOARD_8258_DIY_H_
 
-/************************* Configure KEY GPIO ***************************************/
-#define BUTTON                  GPIO_PB6
-#define PB6_INPUT_ENABLE        ON
-#define PB6_DATA_OUT            OFF
-#define PB6_OUTPUT_ENABLE       OFF
-#define PB6_FUNC                AS_GPIO
-#define PULL_WAKEUP_SRC_PB6     PM_PIN_PULLUP_1M
+/************************* Configure SMOKE GPIO **************************************/
+#define ALARM_GPIO              GPIO_PC2
+#define PC2_FUNC                AS_GPIO
+#define PC2_OUTPUT_ENABLE       OFF
+#define PC2_INPUT_ENABLE        ON
+#define PULL_WAKEUP_SRC_PC2     PM_PIN_PULLUP_1M
 
-#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW // only for KEY
+#define TAMPER_GPIO             GPIO_PC3
+#define PC3_FUNC                AS_GPIO
+#define PC3_OUTPUT_ENABLE       OFF
+#define PC3_INPUT_ENABLE        ON
+#define PULL_WAKEUP_SRC_PC3     PM_PIN_PULLUP_1M
 
-/************************* Configure counters ***************************************/
-#define LITERS_PER_PULSE        10              /* How many liters per one pulse */
-#define COUNTERS_OVERFLOW       100000000       /* counters overflow             */
-
-/************************* Configure HOT GPIO ***************************************/
-#define HOT_GPIO                GPIO_PB7
-#define PB7_INPUT_ENABLE        ON
-#define PB7_DATA_OUT            OFF
-#define PB7_OUTPUT_ENABLE       OFF
-#define PB7_FUNC                AS_GPIO
-#define PULL_WAKEUP_SRC_PB7     PM_PIN_PULLUP_1M
-
-/************************* Configure COLD GPIO **************************************/
-#define COLD_GPIO               GPIO_PB4
-#define PB4_INPUT_ENABLE        ON
-#define PB4_DATA_OUT            OFF
-#define PB4_OUTPUT_ENABLE       OFF
-#define PB4_FUNC                AS_GPIO
-#define PULL_WAKEUP_SRC_PB4     PM_PIN_PULLUP_1M
-
-/************************* Configure LEAK GPIO **************************************/
-#define LEAK1_GPIO              GPIO_PB5
-#define PB5_INPUT_ENABLE        ON
-#define PB5_DATA_OUT            OFF
-#define PB5_OUTPUT_ENABLE       OFF
-#define PB5_FUNC                AS_GPIO
-#define PULL_WAKEUP_SRC_PB5     PM_PIN_PULLUP_1M
-
-#define LEAK2_GPIO              GPIO_PA1
-#define PA1_INPUT_ENABLE        ON
-#define PA1_DATA_OUT            OFF
-#define PA1_OUTPUT_ENABLE       OFF
+/********************* Configure External Battery GPIO ******************************/
+#define VOLTAGE_DETECT_PIN      GPIO_PB1
+#define VOLTAGE_DIVISOR_PIN_EN  GPIO_PA1
 #define PA1_FUNC                AS_GPIO
-#define PULL_WAKEUP_SRC_PA1     PM_PIN_PULLUP_1M
+#define PA1_OUTPUT_ENABLE       ON
+#define PA1_INPUT_ENABLE        OFF
+#define PULL_WAKEUP_SRC_PA1     PM_PIN_PULLDOWN_100K
 
-//#define LEAK2_GPIO              GPIO_PD7
-//#define PD7_INPUT_ENABLE        ON
-//#define PD7_DATA_OUT            OFF
-//#define PD7_OUTPUT_ENABLE       OFF
-//#define PD7_FUNC                AS_GPIO
-//#define PULL_WAKEUP_SRC_PD7     PM_PIN_PULLUP_1M
+/************************* Configure KEY GPIO ***************************************/
+#define MAX_BUTTON_NUM  1
+
+#define BUTTON1                 GPIO_PC1
+#define PC1_FUNC                AS_GPIO
+#define PC1_OUTPUT_ENABLE       OFF
+#define PC1_INPUT_ENABLE        ON
+#define PULL_WAKEUP_SRC_PC1     PM_PIN_PULLUP_1M
+
+#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW
+
+enum {
+    VK_SW1 = 0x01,
+};
+
+#define KB_MAP_NORMAL   {\
+        {VK_SW1,}}
+
+#define KB_MAP_NUM      KB_MAP_NORMAL
+#define KB_MAP_FN       KB_MAP_NORMAL
+
+#define KB_DRIVE_PINS  {NULL }
+#define KB_SCAN_PINS   {BUTTON1}
+
 
 /**************************** Configure UART ***************************************
 *    UART_TX_PA2 = GPIO_PA2,
@@ -75,30 +69,11 @@
 
 /**************************** Configure LED ******************************************/
 
-#define LED1                        GPIO_PB1
-#define PB1_FUNC                    AS_GPIO
-#define PB1_OUTPUT_ENABLE           ON
-#define PB1_INPUT_ENABLE            OFF
+#define LED1                    GPIO_PB5
+#define PB5_FUNC                AS_GPIO
+#define PB5_OUTPUT_ENABLE       ON
+#define PB5_INPUT_ENABLE        OFF
 
-
-///************************* For 512K Flash only ***************************************/
-///* Flash map:
-//  0x00000 Old Firmware bin
-//  0x34000 NV_1
-//  0x40000 OTA New bin storage Area
-//  0x76000 MAC address
-//  0x77000 C_Cfg_Info
-//  0x78000 U_Cfg_Info
-//  0x7A000 NV_2
-//  0x80000 End Flash
-// */
-//#define USER_DATA_SIZE          0x34000
-//#define BEGIN_USER_DATA1        0x00000
-//#define END_USER_DATA1          (BEGIN_USER_DATA1 + USER_DATA_SIZE)
-//#define BEGIN_USER_DATA2        0x40000
-//#define END_USER_DATA2          (BEGIN_USER_DATA2 + USER_DATA_SIZE)
-//#define GEN_USER_CFG_DATA       END_USER_DATA2
-
-
+/**************************************************************************************/
 
 #endif /* SRC_INCLUDE_BOARD_8258_DIY_H_ */
