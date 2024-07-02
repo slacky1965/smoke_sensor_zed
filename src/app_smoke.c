@@ -6,6 +6,7 @@
 #define DEBOUNCE_SMOKE    32                          /* number of polls for debounce       */
 
 static uint8_t smoke_debounce = 1;
+static uint8_t tamper_debounce = 1;
 
 static void cmdOnOff(uint8_t endpoint, uint8_t smoke) {
     epInfo_t dstEpInfo;
@@ -56,7 +57,7 @@ void smoke_handler() {
     epInfo_t dstEpInfo;
     zoneStatusChangeNoti_t statusChangeNotification;
 
-    if (!drv_gpio_read(SMOKE_GPIO)) {
+    if (!drv_gpio_read(ALARM_GPIO)) {
         if (smoke_debounce != DEBOUNCE_SMOKE) {
             smoke_debounce++;
             if (smoke_debounce == DEBOUNCE_SMOKE) {
@@ -66,8 +67,6 @@ void smoke_handler() {
                 if(zb_isDeviceJoinedNwk()) {
                     cmdOnOff(APP_ENDPOINT1, true);
                     fillIASAddress(&dstEpInfo);
-
-                    zoneStatusChangeNoti_t statusChangeNotification;
 
                     zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (u8*)&statusChangeNotification.zoneStatus);
                     zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
@@ -106,13 +105,61 @@ void smoke_handler() {
         }
     }
 
+    if (!drv_gpio_read(TAMPER_GPIO)) {
+        if (tamper_debounce != DEBOUNCE_SMOKE) {
+            tamper_debounce++;
+            if (tamper_debounce == DEBOUNCE_SMOKE) {
+#if UART_PRINTF_MODE && DEBUG_SMOKE
+                printf("Tamper detected\r\n");
+#endif /* UART_PRINTF_MODE */
+                if(zb_isDeviceJoinedNwk()) {
+                    fillIASAddress(&dstEpInfo);
+
+                    zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (u8*)&statusChangeNotification.zoneStatus);
+                    zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
+
+                    statusChangeNotification.zoneStatus |= ZONE_STATUS_BIT_TAMPER;
+                    zcl_setAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, (u8*)&statusChangeNotification.zoneStatus);
+                    statusChangeNotification.extStatus = 0;
+                    statusChangeNotification.delay = 0;
+
+                    zcl_iasZone_statusChangeNotificationCmd(APP_ENDPOINT1, &dstEpInfo, TRUE, &statusChangeNotification);
+                }
+            }
+        }
+    } else {
+        if (tamper_debounce != 1) {
+            tamper_debounce--;
+            if (tamper_debounce == 1) {
+#if UART_PRINTF_MODE && DEBUG_SMOKE
+                printf("Tamper clear\r\n");
+#endif /* UART_PRINTF_MODE */
+                if(zb_isDeviceJoinedNwk()){
+                    fillIASAddress(&dstEpInfo);
+
+                    zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (u8*)&statusChangeNotification.zoneStatus);
+                    zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
+
+                    statusChangeNotification.zoneStatus &= ~ZONE_STATUS_BIT_TAMPER;
+                    zcl_setAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, (u8*)&statusChangeNotification.zoneStatus);
+                    statusChangeNotification.extStatus = 0;
+                    statusChangeNotification.delay = 0;
+
+                    zcl_iasZone_statusChangeNotificationCmd(APP_ENDPOINT1, &dstEpInfo, TRUE, &statusChangeNotification);
+                }
+            }
+        }
+    }
+
+
     if (smoke_idle()) {
         sleep_ms(1);
     }
 }
 
 uint8_t smoke_idle() {
-    if (smoke_debounce != 1 && smoke_debounce != DEBOUNCE_SMOKE) {
+    if ((smoke_debounce != 1 && smoke_debounce != DEBOUNCE_SMOKE) ||
+        (tamper_debounce != 1 && tamper_debounce != DEBOUNCE_SMOKE)) {
         return true;
     }
     return false;
