@@ -36,10 +36,6 @@ typedef struct{
  *  @brief Defined for power configuration cluster attributes
  */
 typedef struct{
-#ifdef POWER_MAINS
-    uint16_t mainsVoltage;
-    uint8_t  mainsFrequency;
-#endif
     uint8_t  batteryVoltage;      //0x20
     uint8_t  batteryPercentage;   //0x21
 }zcl_powerAttr_t;
