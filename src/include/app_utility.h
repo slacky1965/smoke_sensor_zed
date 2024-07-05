@@ -25,6 +25,7 @@
 #define TIMEOUT_10MIN       600  * 1000     /* timeout 10 min   */
 #define TIMEOUT_15MIN       900  * 1000     /* timeout 15 min   */
 #define TIMEOUT_30MIN       1800 * 1000     /* timeout 30 min   */
+#define TIMEOUT_1HOUR       3600 * 1000     /* timeout 1 hour   */
 
 void start_message();
 int32_t poll_rateAppCb(void *arg);
