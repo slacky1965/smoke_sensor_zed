@@ -147,7 +147,7 @@ void user_app_init(void)
     start_message();
 
     batteryCb(NULL);
-    g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, 5000 /*BATTERY_TIMER_INTERVAL*/);
+    g_appCtx.timerBatteryEvt = TL_ZB_TIMER_SCHEDULE(batteryCb, NULL, BATTERY_TIMER_INTERVAL);
 
 //#if UART_PRINTF_MODE
 //    printf("IMAGE_TYPE: 0x%x\r\n", IMAGE_TYPE);
@@ -252,9 +252,9 @@ void user_init(bool isRetention)
         /* Set default reporting configuration */
         uint8_t reportableChange = 0x00;
         bdb_defaultReportingCfg(APP_ENDPOINT1, HA_PROFILE_ID, ZCL_CLUSTER_GEN_POWER_CFG, ZCL_ATTRID_BATTERY_VOLTAGE,
-                REPORTING_MIN, REPORTING_MAX, (uint8_t *)&reportableChange);
+                REPORTING_BATTERY_MIN, REPORTING_BATTERY_MAX, (uint8_t *)&reportableChange);
         bdb_defaultReportingCfg(APP_ENDPOINT1, HA_PROFILE_ID, ZCL_CLUSTER_GEN_POWER_CFG, ZCL_ATTRID_BATTERY_PERCENTAGE_REMAINING,
-                REPORTING_MIN, REPORTING_MAX, (uint8_t *)&reportableChange);
+                REPORTING_BATTERY_MIN, REPORTING_BATTERY_MAX, (uint8_t *)&reportableChange);
 
         /* custom reporting application (non SDK) */
         app_reporting_init();
