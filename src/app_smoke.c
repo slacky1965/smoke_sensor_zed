@@ -29,7 +29,7 @@ static void cmdOnOff(uint8_t endpoint, uint8_t smoke) {
 }
 
 
-static void fillIASAddress(epInfo_t* pdstEpInfo) {
+void fillIASAddress(epInfo_t* pdstEpInfo) {
     u16 len;
     u8 zoneState;
 
