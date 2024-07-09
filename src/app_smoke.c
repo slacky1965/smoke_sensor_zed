@@ -8,7 +8,11 @@
 static uint8_t smoke_debounce = 1;
 static uint8_t tamper_debounce = 1;
 
-static void cmdOnOff(uint8_t endpoint, uint8_t smoke) {
+static void cmdOnOff(uint8_t endpoint, uint8_t smoke_state) {
+
+    u16 len;
+    u8 switch_action;
+
     epInfo_t dstEpInfo;
     TL_SETSTRUCTCONTENT(dstEpInfo, 0);
 
@@ -21,11 +25,30 @@ static void cmdOnOff(uint8_t endpoint, uint8_t smoke) {
     dstEpInfo.dstAddr.shortAddr = 0xfffc;
 #endif
 
-    if (smoke) {
-        zcl_onOff_onCmd(endpoint, &dstEpInfo, FALSE);
-    } else {
-        zcl_onOff_offCmd(endpoint, &dstEpInfo, FALSE);
-    }
+    zcl_getAttrVal(endpoint, ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, ZCL_ATTRID_SWITCH_ACTION, &len, (u8*)&switch_action);
+    printf("sw config action:%d, state:%d \r\n", switch_action, smoke_state);
+    switch (switch_action) {
+        case ZCL_SWITCH_ACTION_ON_OFF:
+            if (smoke_state)
+                zcl_onOff_onCmd(endpoint, &dstEpInfo, FALSE);
+            else
+                zcl_onOff_offCmd(endpoint, &dstEpInfo, FALSE);
+            break;
+        case ZCL_SWITCH_ACTION_OFF_ON:
+            if (smoke_state)
+                zcl_onOff_offCmd(endpoint, &dstEpInfo, FALSE);
+            else
+                zcl_onOff_onCmd(endpoint, &dstEpInfo, FALSE);
+            break;
+        case ZCL_SWITCH_ACTION_TOGGLE:
+            zcl_onOff_toggleCmd(endpoint, &dstEpInfo, FALSE);
+    };
+
+//    if (smoke_state) {
+//        zcl_onOff_onCmd(endpoint, &dstEpInfo, FALSE);
+//    } else {
+//        zcl_onOff_offCmd(endpoint, &dstEpInfo, FALSE);
+//    }
 }
 
 
