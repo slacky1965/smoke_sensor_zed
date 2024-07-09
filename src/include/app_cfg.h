@@ -40,10 +40,10 @@ extern "C" {
 #endif
 
 /* for reporting */
-#define REPORTING_MIN           300             /* 5 min            */
-#define REPORTING_MAX           3600            /* 60 min           */
-#define REPORTING_BATTERY_MIN   3600            /* 1 hour           */
-#define REPORTING_BATTERY_MAX   7200            /* 2 hours          */
+#define REPORTING_MIN           300             /* 5 min                    */
+#define REPORTING_MAX           3600            /* 60 min                   */
+#define REPORTING_BATTERY_MIN   3600            /* 1 hour                   */
+#define REPORTING_BATTERY_MAX   0               /* reporting on the change  */
 
 /* for polling */
 #define LONG_POLL           REPORTING_MIN
@@ -181,6 +181,7 @@ extern "C" {
  */
 #define ZCL_IAS_ZONE_SUPPORT            ON
 #define ZCL_ON_OFF_SUPPORT              ON
+#define ZCL_ON_OFF_SWITCH_CFG_SUPPORT   ON
 #define ZCL_GROUP_SUPPORT               ON
 #define ZCL_POWER_CFG_SUPPORT           ON
 #define ZCL_OTA_SUPPORT                 ON
