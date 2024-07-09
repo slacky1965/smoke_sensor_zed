@@ -65,6 +65,12 @@ typedef struct {
     uint16_t fastPollTimeoutMax;
 } zcl_pollCtrlAttr_t;
 
+typedef struct{
+    u8 switchType;
+    u8 switchActions;
+} zcl_onOffSwitchCfg;
+
+
 extern uint8_t APP_EP1_CB_CLUSTER_NUM;
 
 /* Attributes */
