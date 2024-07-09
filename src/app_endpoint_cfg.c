@@ -43,6 +43,9 @@ const uint16_t app_ep1_inClusterList[] =
     ZCL_CLUSTER_SS_IAS_ZONE,
 #endif
     ZCL_CLUSTER_GEN_POWER_CFG,
+#ifdef ZCL_ON_OFF_SWITCH_CFG
+    ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG,
+#endif
 };
 
 /**
@@ -219,6 +222,25 @@ const zclAttrInfo_t iasZone_attrTbl[] =
 
 #endif
 
+#ifdef ZCL_ON_OFF_SWITCH_CFG
+/* On/Off Config */
+zcl_onOffSwitchCfg g_zcl_onOffSwitchCfgAttrs =
+{
+    .switchType         = ZCL_SWITCH_TYPE_TOGGLE, //Toggle
+    .switchActions      = ZCL_SWITCH_ACTION_ON_OFF,
+};
+
+const zclAttrInfo_t on_off_switch_config_attrTbl[] =
+{
+    { ZCL_ATTRID_SWITCH_TYPE,               ZCL_ENUM8,  R,  (u8*)&g_zcl_onOffSwitchCfgAttrs.switchType },
+    { ZCL_ATTRID_SWITCH_ACTION,             ZCL_ENUM8,  RW, (u8*)&g_zcl_onOffSwitchCfgAttrs.switchActions },
+
+    { ZCL_ATTRID_GLOBAL_CLUSTER_REVISION,   ZCL_UINT16, R,  (u8*)&zcl_attr_global_clusterRevision},
+};
+
+#define ZCL_ON_OFF_SWITCH_CFG_ATTR_NUM       sizeof(on_off_switch_config_attrTbl) / sizeof(zclAttrInfo_t)
+#endif //ZCL_ON_OFF_SWITCH_CFG
+
 /**
  *  @brief Definition for simple switch ZCL specific cluster
  */
@@ -238,6 +260,9 @@ const zcl_specClusterInfo_t g_appEp1ClusterList[] =
 #endif
 #ifdef ZCL_IAS_ZONE
     {ZCL_CLUSTER_SS_IAS_ZONE,       MANUFACTURER_CODE_NONE, ZCL_IASZONE_ATTR_NUM,   iasZone_attrTbl,    zcl_iasZone_register,   app_iasZoneCb},
+#endif
+#ifdef ZCL_ON_OFF_SWITCH_CFG
+    {ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, MANUFACTURER_CODE_NONE, ZCL_ON_OFF_SWITCH_CFG_ATTR_NUM, on_off_switch_config_attrTbl, zcl_onOffSwitchCfg_register, NULL},
 #endif
 };
 
