@@ -9,6 +9,7 @@
 #include "app_reporting.h"
 #include "app_endpoint_cfg.h"
 #include "app_utility.h"
+#include "../common/zcl_onoffSwitchCfg.h"
 
 
 typedef struct {
