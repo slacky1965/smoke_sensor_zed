@@ -3,26 +3,29 @@
 
 #include "app_main.h"
 
-static void buttonKeepPressed(u8 btNum) {
+static void buttonKeepPressed(uint8_t btNum) {
     g_appCtx.button[btNum-1].state = APP_FACTORY_NEW_DOING;
     g_appCtx.button[btNum-1].ctn = 0;
 
     if(btNum == VK_SW1) {
         printf("VK_SW1. 5 sec. Factory reset\r\n");
+        light_blink_start(1, 2000, 1);
         delayedFactoryResetCb(NULL);
     }
 }
 
 
-static void buttonSinglePressed(u8 btNum) {
+static void buttonSinglePressed(uint8_t btNum) {
 
     printf("Command single click\r\n");
 
     switch (btNum) {
         case VK_SW1:
             printf("Single pressed SW1\r\n");
-            if(zb_isDeviceJoinedNwk()){
-//                cmdOnOff(APP_ENDPOINT1);
+            if(zb_isDeviceJoinedNwk()) {
+                if (!g_appCtx.timerForcedReportEvt) {
+                    g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
+                }
             }
             break;
         default:
@@ -30,30 +33,11 @@ static void buttonSinglePressed(u8 btNum) {
     }
 }
 
-static void buttonDoublePressed(u8 btNum) {
-    printf("Command double click\r\n");
-}
-
-static void buttonTriplePressed(u8 btNum) {
-    printf("Command triple click\r\n");
-}
-
-static void buttonQuadruplePressed(u8 btNum) {
-    printf("Command quadruple click\r\n");
-}
-
-
 static void buttonCheckCommand(uint8_t btNum) {
     g_appCtx.button[btNum-1].state = APP_STATE_NORMAL;
 
     if (g_appCtx.button[btNum-1].ctn == 1) {
         buttonSinglePressed(btNum);
-    } else if (g_appCtx.button[btNum-1].ctn == 2) {
-        buttonDoublePressed(btNum);
-    } else if (g_appCtx.button[btNum-1].ctn == 3) {
-        buttonTriplePressed(btNum);
-    } else if (g_appCtx.button[btNum-1].ctn == 4) {
-        buttonQuadruplePressed(btNum);
     }
 
     g_appCtx.button[btNum-1].ctn = 0;
@@ -61,32 +45,70 @@ static void buttonCheckCommand(uint8_t btNum) {
 
 
 void keyScan_keyPressedCB(kb_data_t *kbEvt) {
-    //u8 toNormal = 0;
-    u8 keyCode = kbEvt->keycode[0];
-    //static u8 lastKeyCode = 0xff;
 
-//    buttonShortPressed(keyCode);
-
+    uint16_t len;
+    epInfo_t dstEpInfo;
+    zoneStatusChangeNoti_t statusChangeNotification;
+    uint8_t keyCode = kbEvt->keycode[0];
 
     if(keyCode != 0xff) {
         g_appCtx.button[keyCode-1].pressed_time = clock_time();
         g_appCtx.button[keyCode-1].state = APP_FACTORY_NEW_SET_CHECK;
         g_appCtx.button[keyCode-1].ctn++;
+        light_blink_start(1, 100, 1);
+
+        if (keyCode == VK_SW1) {
+            if(zb_isDeviceJoinedNwk()) {
+                fillIASAddress(&dstEpInfo);
+
+                zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (uint8_t*)&statusChangeNotification.zoneStatus);
+                zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
+
+                statusChangeNotification.zoneStatus |= ZONE_STATUS_TEST;
+                zcl_setAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, (uint8_t*)&statusChangeNotification.zoneStatus);
+                statusChangeNotification.extStatus = 0;
+                statusChangeNotification.delay = 0;
+
+                zcl_iasZone_statusChangeNotificationCmd(APP_ENDPOINT1, &dstEpInfo, TRUE, &statusChangeNotification);
+
+            }
+        }
     }
 }
 
 
-void keyScan_keyReleasedCB(u8 keyCode){
+void keyScan_keyReleasedCB(uint8_t keyCode) {
+
+    uint16_t len;
+    epInfo_t dstEpInfo;
+    zoneStatusChangeNoti_t statusChangeNotification;
+
     if (keyCode != 0xff) {
         g_appCtx.button[keyCode-1].released_time = clock_time();
         g_appCtx.button[keyCode-1].state = APP_STATE_RELEASE;
 
-//        g_appCtx.button[keyCode-1].state = APP_STATE_NORMAL;
+        if (keyCode == VK_SW1) {
+            if(zb_isDeviceJoinedNwk()) {
+                fillIASAddress(&dstEpInfo);
+
+                zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (uint8_t*)&statusChangeNotification.zoneStatus);
+                zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
+
+                statusChangeNotification.zoneStatus &= ~ZONE_STATUS_TEST;
+                zcl_setAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, (uint8_t*)&statusChangeNotification.zoneStatus);
+                statusChangeNotification.extStatus = 0;
+                statusChangeNotification.delay = 0;
+
+                zcl_iasZone_statusChangeNotificationCmd(APP_ENDPOINT1, &dstEpInfo, TRUE, &statusChangeNotification);
+
+            }
+        }
+
     }
 }
 
 void button_handler(void) {
-    static u8 valid_keyCode = 0xff;
+    static uint8_t valid_keyCode = 0xff;
 
     for (uint8_t i = 0; i < MAX_BUTTON_NUM; i++) {
         if (g_appCtx.button[i].state == APP_FACTORY_NEW_SET_CHECK) {
@@ -118,7 +140,7 @@ void button_handler(void) {
     }
 }
 
-u8 button_idle() {
+uint8_t button_idle() {
 
     if (g_appCtx.keyPressed) {
         return true;
