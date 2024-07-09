@@ -241,19 +241,6 @@ int32_t forcedReportCb(void *arg) {
         zcl_sendReportCmd(APP_ENDPOINT1, &dstEpInfo,  TRUE, ZCL_FRAME_SERVER_CLIENT_DIR,
                 ZCL_CLUSTER_GEN_POWER_CFG, pAttrEntry->id, pAttrEntry->type, pAttrEntry->data);
 
-        pAttrEntry = zcl_findAttribute(APP_ENDPOINT1, ZCL_CLUSTER_SE_METERING, ZCL_ATTRID_CURRENT_SUMMATION_DELIVERD);
-        zcl_sendReportCmd(APP_ENDPOINT1, &dstEpInfo,  TRUE, ZCL_FRAME_SERVER_CLIENT_DIR,
-                ZCL_CLUSTER_SE_METERING, pAttrEntry->id, pAttrEntry->type, pAttrEntry->data);
-
-#if FIND_AND_BIND_SUPPORT
-        dstEpInfo.dstAddrMode = APS_DSTADDR_EP_NOTPRESETNT;
-#else
-        dstEpInfo.dstEp = APP_ENDPOINT1;
-#endif
-        pAttrEntry = zcl_findAttribute(APP_ENDPOINT2, ZCL_CLUSTER_SE_METERING, ZCL_ATTRID_CURRENT_SUMMATION_DELIVERD);
-        zcl_sendReportCmd(APP_ENDPOINT2, &dstEpInfo,  TRUE, ZCL_FRAME_SERVER_CLIENT_DIR,
-                ZCL_CLUSTER_SE_METERING, pAttrEntry->id, pAttrEntry->type, pAttrEntry->data);
-
     }
 
     g_appCtx.timerForcedReportEvt = NULL;
