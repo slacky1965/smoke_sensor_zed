@@ -119,7 +119,7 @@ int32_t batteryCb(void *arg) {
     zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_STATUS, &len, (uint8_t*)&statusChangeNotification.zoneStatus);
     zcl_getAttrVal(APP_ENDPOINT1, ZCL_CLUSTER_SS_IAS_ZONE, ZCL_ATTRID_ZONE_ID, &len, &statusChangeNotification.zoneId);
 
-    if (voltage_9v < MIN_VBAT_MV) {
+    if (voltage_9v <= MIN_VBAT_MV) {
 
         if (!(statusChangeNotification.zoneStatus & ZONE_STATUS_BIT_BATTERY)) {
 
