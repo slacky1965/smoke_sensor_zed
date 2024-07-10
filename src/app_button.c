@@ -9,7 +9,8 @@ static void buttonKeepPressed(uint8_t btNum) {
 
     if(btNum == VK_SW1) {
         printf("VK_SW1. 5 sec. Factory reset\r\n");
-        light_blink_start(1, 2000, 1);
+        light_blink_stop();
+        light_blink_start(1, 1500, 1);
         delayedFactoryResetCb(NULL);
     }
 }
