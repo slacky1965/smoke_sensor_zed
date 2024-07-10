@@ -42,7 +42,7 @@
 #endif
 
 #define APP_RELEASE                         0x10        //app release 1.0
-#define APP_BUILD                           0x01        //app build 01, full version - v1.0.01
+#define APP_BUILD                           0x02        //app build 01, full version - v1.0.01
 #define STACK_RELEASE						0x30        //stack release 3.0
 #define STACK_BUILD							0x01        //stack build 01
 #define HW_VERSION                          0x01
@@ -58,7 +58,7 @@
 #ifdef BUILD_DATE
     #define ZCL_BASIC_DATE_CODE    BUILD_DATE
 #else
-    #define ZCL_BASIC_DATE_CODE    {8,'2','0','2','4','0','6','2','0'}
+    #define ZCL_BASIC_DATE_CODE    {8,'2','0','2','4','0','7','0','9'}
 #endif
 
 #endif
