@@ -332,84 +332,44 @@ void zb_bdbFindBindSuccessCb(findBindDst_t *pDstInfo){
 
 
 #ifdef ZCL_OTA
-
-extern ota_clientInfo_t otaClientInfo;
-void ota_upgradeComplete(u8 status);
-
-static void app_ota_abort() {
-
-    /* reset update OTA */
-    nv_resetModule(NV_MODULE_OTA);
-
-    memset((uint8_t*) &otaClientInfo, 0, sizeof(otaClientInfo));
-    otaClientInfo.clientOtaFlg = OTA_FLAG_INIT_DONE;
-    otaClientInfo.crcValue = 0xffffffff;
-
-    zcl_attr_imageTypeID = 0xffff;
-    zcl_attr_fileOffset = 0xffffffff;
-    zcl_attr_downloadFileVer = 0xffffffff;
-}
-
-void app_otaProcessMsgHandler(uint8_t evt, uint8_t status) {
-    //printf("app_otaProcessMsgHandler: status = %x\r\n", status);
-    if (evt == OTA_EVT_START) {
-
-#if (VOLTAGE_DETECT_ENABLE)
-
-    if(drv_get_adc_data() < ((MAX_VBAT_MV - 100 - MIN_VBAT_MV) / 2 + MIN_VBAT_MV)) {
-
-#if UART_PRINTF_MODE && DEBUG_OTA
-        printf("Battery charge less than 50%%, OTA update abort.\r\n");
-#endif /* UART_PRINTF_MODE */
-
-        app_ota_abort();
-        ota_upgradeComplete(ZCL_STA_ABORT);
-        return;
-    }
-#endif
-
-        if (status == ZCL_STA_SUCCESS) {
-
+void app_otaProcessMsgHandler(u8 evt, u8 status) {
+    //printf("sampleSwitch_otaProcessMsgHandler: status = %x\n", status);
+    if(evt == OTA_EVT_START){
+        if(status == ZCL_STA_SUCCESS){
 #if UART_PRINTF_MODE && DEBUG_OTA
             printf("OTA update start.\r\n");
 #endif /* UART_PRINTF_MODE */
-
             if (g_appCtx.timerPollRateEvt) {
                 TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
             }
-
             zb_setPollRate(QUEUE_POLL_RATE);
-
-        } else {
+        }else{
 
         }
-    } else if (evt == OTA_EVT_COMPLETE) {
-
-//        zb_setPollRate(POLL_RATE * 3);
+    }else if(evt == OTA_EVT_COMPLETE){
         zb_setPollRate(g_appCtx.short_poll);
         if (g_appCtx.timerPollRateEvt) {
             TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
         }
         g_appCtx.timerPollRateEvt = TL_ZB_TIMER_SCHEDULE(poll_rateAppCb, NULL, TIMEOUT_2MIN);
 
-        if (status == ZCL_STA_SUCCESS) {
-
+        if(status == ZCL_STA_SUCCESS){
 #if UART_PRINTF_MODE && DEBUG_OTA
             printf("OTA update successful.\r\n");
 #endif /* UART_PRINTF_MODE */
-
             ota_mcuReboot();
-
-        } else {
-
+        }else{
 #if UART_PRINTF_MODE && DEBUG_OTA
             printf("OTA update failure. Try again.\r\n");
 #endif /* UART_PRINTF_MODE */
-
-            app_ota_abort();
-
             ota_queryStart(OTA_PERIODIC_QUERY_INTERVAL);
         }
+    }else if(evt == OTA_EVT_IMAGE_DONE){
+        zb_setPollRate(g_appCtx.short_poll);
+        if (g_appCtx.timerPollRateEvt) {
+            TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
+        }
+        g_appCtx.timerPollRateEvt = TL_ZB_TIMER_SCHEDULE(poll_rateAppCb, NULL, TIMEOUT_2MIN);
     }
 }
 #endif
