@@ -17,13 +17,17 @@ static void cmdOnOff(uint8_t endpoint, uint8_t smoke_state) {
     TL_SETSTRUCTCONTENT(dstEpInfo, 0);
 
     dstEpInfo.profileId = HA_PROFILE_ID;
-#if FIND_AND_BIND_SUPPORT
-        dstEpInfo.dstAddrMode = APS_DSTADDR_EP_NOTPRESETNT;
-#else
-    dstEpInfo.dstAddrMode = APS_SHORT_DSTADDR_WITHEP;
-    dstEpInfo.dstEp = endpoint;
-    dstEpInfo.dstAddr.shortAddr = 0xfffc;
-#endif
+
+//#if FIND_AND_BIND_SUPPORT
+//        dstEpInfo.dstAddrMode = APS_DSTADDR_EP_NOTPRESETNT;
+//#else
+//    dstEpInfo.dstAddrMode = APS_SHORT_DSTADDR_WITHEP;
+//    dstEpInfo.dstEp = endpoint;
+//    dstEpInfo.dstAddr.shortAddr = 0xfffc;
+//#endif
+
+    dstEpInfo.dstAddrMode = APS_DSTADDR_EP_NOTPRESETNT;
+
 
     zcl_getAttrVal(endpoint, ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, ZCL_ATTRID_SWITCH_ACTION, &len, (u8*)&switch_action);
     printf("sw config action:%d, state:%d \r\n", switch_action, smoke_state);
