@@ -5,6 +5,7 @@
 #include "app_main.h"
 
 static uint32_t last_light = 0;
+uint8_t ota_processing = false;
 
 app_ctx_t g_appCtx = {
         .bdbFBTimerEvt = NULL,
@@ -171,11 +172,11 @@ void app_task(void) {
         if (clock_time_exceed(last_light, TIMEOUT_TICK_5SEC)) {
             if (zb_isDeviceJoinedNwk()) {
                 light_blink_stop();
-//                if (app_config.new_ota) {
-//                    light_blink_start(2, 30, 250);
-//                } else {
+                if (ota_processing) {
+                    light_blink_start(2, 30, 250);
+                } else {
                     light_blink_start(1, 30, 30);
-//                }
+                }
             }
             last_light = clock_time();
         }
