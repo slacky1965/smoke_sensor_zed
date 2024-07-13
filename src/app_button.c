@@ -20,17 +20,13 @@ static void buttonSinglePressed(uint8_t btNum) {
 
     printf("Command single click\r\n");
 
-    switch (btNum) {
-        case VK_SW1:
-            printf("Single pressed SW1\r\n");
-            if(zb_isDeviceJoinedNwk()) {
-                if (!g_appCtx.timerForcedReportEvt) {
-                    g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
-                }
+    if (btNum == VK_SW1) {
+        printf("Single pressed SW1\r\n");
+        if(zb_isDeviceJoinedNwk()) {
+            if (!g_appCtx.timerForcedReportEvt) {
+                g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
             }
-            break;
-        default:
-            break;
+        }
     }
 }
 
