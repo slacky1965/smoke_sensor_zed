@@ -334,11 +334,12 @@ void zb_bdbFindBindSuccessCb(findBindDst_t *pDstInfo){
 #ifdef ZCL_OTA
 void app_otaProcessMsgHandler(u8 evt, u8 status) {
     //printf("sampleSwitch_otaProcessMsgHandler: status = %x\n", status);
-    if(evt == OTA_EVT_START){
-        if(status == ZCL_STA_SUCCESS){
+    if(evt == OTA_EVT_START) {
+        if(status == ZCL_STA_SUCCESS) {
 #if UART_PRINTF_MODE && DEBUG_OTA
             printf("OTA update start.\r\n");
 #endif /* UART_PRINTF_MODE */
+            ota_processing = true;
             if (g_appCtx.timerPollRateEvt) {
                 TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
             }
