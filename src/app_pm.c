@@ -11,20 +11,25 @@
 static drv_pm_pinCfg_t pin_PmCfg[] = {
     {
         ALARM_GPIO,
-        PM_WAKEUP_LEVEL
+#if (BOARD == BOARD_8258_DIY)
+        PM_WAKEUP_LEVEL_HIGH
+#else
+        PM_WAKEUP_LEVEL_LOW
+#endif
     },
     {
         TAMPER_GPIO,
-        PM_WAKEUP_LEVEL
+        PM_WAKEUP_LEVEL_LOW
     },
     {
         BUTTON1,
-        PM_WAKEUP_LEVEL
+        PM_WAKEUP_LEVEL_LOW
     },
 };
 
 void app_wakeupPinConfig() {
     drv_pm_wakeupPinConfig(pin_PmCfg, sizeof(pin_PmCfg)/sizeof(drv_pm_pinCfg_t));
+//    drv_pm_wakeupPinLevelChange(pin_PmCfg, 2);
 }
 
 void app_wakeupPinLevelChange() {
