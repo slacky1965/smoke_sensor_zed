@@ -6,13 +6,16 @@
 #define PC2_FUNC                AS_GPIO
 #define PC2_OUTPUT_ENABLE       OFF
 #define PC2_INPUT_ENABLE        ON
-#define PULL_WAKEUP_SRC_PC2     PM_PIN_PULLUP_1M
+#define PULL_WAKEUP_SRC_PC2     PM_PIN_PULLDOWN_100K
 
 #define TAMPER_GPIO             GPIO_PC3
 #define PC3_FUNC                AS_GPIO
 #define PC3_OUTPUT_ENABLE       OFF
 #define PC3_INPUT_ENABLE        ON
 #define PULL_WAKEUP_SRC_PC3     PM_PIN_PULLUP_1M
+
+/* tamper switch type 1 - NC, 0 - NO */
+#define TAMPER_SWITCH_NC        0
 
 /********************* Configure External Battery GPIO ******************************/
 #define VOLTAGE_DETECT_PIN      GPIO_PB1
@@ -31,7 +34,8 @@
 #define PC1_INPUT_ENABLE        ON
 #define PULL_WAKEUP_SRC_PC1     PM_PIN_PULLUP_1M
 
-#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW
+//#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW
+//#define PM_WAKEUP_LEVEL_ALARM   PM_WAKEUP_LEVEL_HIGH
 
 enum {
     VK_SW1 = 0x01,
