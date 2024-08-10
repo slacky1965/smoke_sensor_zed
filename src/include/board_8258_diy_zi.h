@@ -31,7 +31,7 @@
 #define PC1_INPUT_ENABLE        ON
 #define PULL_WAKEUP_SRC_PC1     PM_PIN_PULLUP_1M //PM_PIN_PULLUP_10K //
 
-#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW
+//#define PM_WAKEUP_LEVEL         PM_WAKEUP_LEVEL_LOW
 
 enum {
     VK_SW1 = 0x01,
