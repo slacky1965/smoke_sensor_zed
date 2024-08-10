@@ -46,7 +46,7 @@ typedef struct {
     app_linkKey_info_t tcLinkKey;
 } app_ctx_t;
 
-extern ota_processing;
+extern uint8_t ota_processing;
 extern app_ctx_t g_appCtx;
 
 extern bdb_appCb_t g_zbBdbCb;
