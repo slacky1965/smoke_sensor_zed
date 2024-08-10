@@ -4,6 +4,7 @@
 #include "app_main.h"
 
 #define DEBOUNCE_SMOKE    32                          /* number of polls for debounce       */
+#define DEBOUNCE_TAMPER   DEBOUNCE_SMOKE
 
 static uint8_t smoke_debounce = 1;
 static uint8_t tamper_debounce = 1;
@@ -84,7 +85,11 @@ void smoke_handler() {
     epInfo_t dstEpInfo;
     zoneStatusChangeNoti_t statusChangeNotification;
 
+#if (BOARD == BOARD_8258_DIY)
+    if (drv_gpio_read(ALARM_GPIO)) {
+#else
     if (!drv_gpio_read(ALARM_GPIO)) {
+#endif
         if (smoke_debounce != DEBOUNCE_SMOKE) {
             smoke_debounce++;
             if (smoke_debounce == DEBOUNCE_SMOKE) {
@@ -132,7 +137,15 @@ void smoke_handler() {
         }
     }
 
+#if (BOARD == BOARD_8258_DIY)
+  #if (TAMPER_SWITCH_NC == 1)
     if (!drv_gpio_read(TAMPER_GPIO)) {
+  #else
+    if (drv_gpio_read(TAMPER_GPIO)) {
+  #endif
+#else
+    if (!drv_gpio_read(TAMPER_GPIO)) {
+#endif
         if (tamper_debounce != DEBOUNCE_SMOKE) {
             tamper_debounce++;
             if (tamper_debounce == DEBOUNCE_SMOKE) {
@@ -178,7 +191,6 @@ void smoke_handler() {
         }
     }
 
-
     if (smoke_idle()) {
         sleep_ms(1);
     }
@@ -186,7 +198,7 @@ void smoke_handler() {
 
 uint8_t smoke_idle() {
     if ((smoke_debounce != 1 && smoke_debounce != DEBOUNCE_SMOKE) ||
-        (tamper_debounce != 1 && tamper_debounce != DEBOUNCE_SMOKE)) {
+        (tamper_debounce != 1 && tamper_debounce != DEBOUNCE_TAMPER)) {
         return true;
     }
     return false;
