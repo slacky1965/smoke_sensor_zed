@@ -374,6 +374,7 @@ void drv_pm_lowPowerEnter(void)
 
 	ev_timer_event_t *timerEvt = ev_timer_nearestGet();
 	if(timerEvt){
+		printf("timerEvent true, sleepTime: %d\r\n", timerEvt->timeout);
 		wakeupSrc |= PM_WAKEUP_SRC_TIMER;
 		sleepTime = timerEvt->timeout;
 	}
@@ -391,6 +392,10 @@ void drv_pm_lowPowerEnter(void)
 			longSleep = 0;
 		}
 	}
+	
+#if UART_PRINTF_MODE && DEBUG_PM
+    printf("sleep time: %d\r\n", sleepTime);
+#endif	
 
 #if !defined(__PROJECT_TL_BOOT_LOADER__) && !defined(__PROJECT_TL_SNIFFER__)
 	rf_paShutDown();
