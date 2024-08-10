@@ -69,7 +69,7 @@ extern "C" {
 #define DEBUG_REPORTING                 OFF
 #define DEBUG_SMOKE                     ON
 #define DEBUG_BATTERY                   ON
-#define DEBUG_PM                        OFF
+#define DEBUG_PM                        ON
 #define DEBUG_OTA                       OFF
 #define DEBUG_STA_STATUS                OFF
 
@@ -109,7 +109,7 @@ extern "C" {
 #if (CHIP_TYPE == TLSR_8258_1M)
     #define FLASH_CAP_SIZE_1M           1
 #endif
-    #define BOARD                       BOARD_8258_DIY_ZI //BOARD_8258_DONGLE //BOARD_8258_DIY
+    #define BOARD                       BOARD_8258_DIY // BOARD_8258_DIY_ZI //
     #define CLOCK_SYS_CLOCK_HZ          48000000
     #define NV_ITEM_APP_USER_CFG        (NV_ITEM_APP_GP_TRANS_TABLE + 1)    // see sdk/proj/drivers/drv_nv.h
 #elif defined(MCU_CORE_8278)
