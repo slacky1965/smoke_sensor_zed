@@ -1,5 +1,5 @@
 out/
-doc/
+doc_local/
 *.bin
 *.zigbee
 
