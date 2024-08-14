@@ -60,9 +60,13 @@
 * SWS, GND - для заливки в модуль прошивки
 * TXD-DBG - на всякий случай, вдруг кому-то пригодится для отладки.
 
-Ссылки на проект в easyeda
+[Ссылки на проект в easyeda](https://oshwlab.com/slacky/smoke_sensor_tlsr8258)
 
-пока нет.
+Детали, напечатанные на 3D принтере.
+
+[Прокладка для платы](https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/3D/Pad.STL)
+[Кронштейн платы](https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/3D/Support_new.STL)
+
 
 **Готовое устройство**
 
