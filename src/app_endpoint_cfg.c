@@ -224,7 +224,7 @@ const zclAttrInfo_t iasZone_attrTbl[] =
 
 #ifdef ZCL_ON_OFF_SWITCH_CFG
 /* On/Off Config */
-zcl_onOffSwitchCfg g_zcl_onOffSwitchCfgAttrs =
+zcl_onOffSwitchCfg_t g_zcl_onOffSwitchCfgAttrs =
 {
     .switchType         = ZCL_SWITCH_TYPE_TOGGLE, //Toggle
     .switchActions      = ZCL_SWITCH_ACTION_ON_OFF,
@@ -267,4 +267,57 @@ const zcl_specClusterInfo_t g_appEp1ClusterList[] =
 };
 
 uint8_t APP_EP1_CB_CLUSTER_NUM = (sizeof(g_appEp1ClusterList)/sizeof(g_appEp1ClusterList[0]));
+
+nv_sts_t zcl_onOffCfgAttr_save(void) {
+    nv_sts_t st = NV_SUCC;
+
+    //printf("zcl_onOffCfgAttr_save()\r\n");
+
+#ifdef ZCL_ON_OFF_SWITCH_CFG
+#if NV_ENABLE
+    zcl_onOffSwitchCfg_t zcl_nv_onOffCfg;
+
+    st = nv_flashReadNew(1, NV_MODULE_ZCL,  NV_ITEM_ZCL_ON_OFF, sizeof(zcl_onOffSwitchCfg_t), (u8*)&zcl_nv_onOffCfg);
+
+    if(st == NV_SUCC){
+        if(zcl_nv_onOffCfg.switchActions != g_zcl_onOffSwitchCfgAttrs.switchActions){
+            zcl_nv_onOffCfg.switchActions = g_zcl_onOffSwitchCfgAttrs.switchActions;
+
+            st = nv_flashWriteNew(1, NV_MODULE_ZCL, NV_ITEM_ZCL_ON_OFF, sizeof(zcl_onOffSwitchCfg_t), (u8*)&zcl_nv_onOffCfg);
+        }
+    }else if(st == NV_ITEM_NOT_FOUND){
+        zcl_nv_onOffCfg.switchActions = g_zcl_onOffSwitchCfgAttrs.switchActions;
+
+        st = nv_flashWriteNew(1, NV_MODULE_ZCL, NV_ITEM_ZCL_ON_OFF, sizeof(zcl_onOffSwitchCfg_t), (u8*)&zcl_nv_onOffCfg);
+    }
+#else
+    st = NV_ENABLE_PROTECT_ERROR;
+#endif
+#endif
+
+    return st;
+}
+
+nv_sts_t zcl_onOffCfgAttr_restore(void) {
+    nv_sts_t st = NV_SUCC;
+
+    //printf("zcl_onOffCfgAttr_restore()\r\n");
+
+#ifdef ZCL_ON_OFF_SWITCH_CFG
+#if NV_ENABLE
+    zcl_onOffSwitchCfg_t zcl_nv_onOffCfg;
+
+    st = nv_flashReadNew(1, NV_MODULE_ZCL,  NV_ITEM_ZCL_ON_OFF, sizeof(zcl_onOffSwitchCfg_t), (u8*)&zcl_nv_onOffCfg);
+
+    if(st == NV_SUCC){
+        g_zcl_onOffSwitchCfgAttrs.switchActions = zcl_nv_onOffCfg.switchActions;
+    }
+#else
+    st = NV_ENABLE_PROTECT_ERROR;
+#endif
+#endif
+
+    return st;
+}
+
 
