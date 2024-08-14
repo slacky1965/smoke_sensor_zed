@@ -8,7 +8,7 @@ static void buttonKeepPressed(uint8_t btNum) {
     g_appCtx.button[btNum-1].ctn = 0;
 
     if(btNum == VK_SW1) {
-        printf("VK_SW1. 5 sec. Factory reset\r\n");
+//        printf("VK_SW1. 5 sec. Factory reset\r\n");
         light_blink_stop();
         light_blink_start(1, 1500, 1);
         delayedFactoryResetCb(NULL);
@@ -18,10 +18,10 @@ static void buttonKeepPressed(uint8_t btNum) {
 
 static void buttonSinglePressed(uint8_t btNum) {
 
-    printf("Command single click\r\n");
+//    printf("Command single click\r\n");
 
     if (btNum == VK_SW1) {
-        printf("Single pressed SW1\r\n");
+//        printf("Single pressed SW1\r\n");
         if(zb_isDeviceJoinedNwk()) {
             if (!g_appCtx.timerForcedReportEvt) {
                 g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
@@ -35,6 +35,13 @@ static void buttonCheckCommand(uint8_t btNum) {
 
     if (g_appCtx.button[btNum-1].ctn == 1) {
         buttonSinglePressed(btNum);
+    } else if (g_appCtx.button[btNum-1].ctn == 5) {
+        //reboot
+//        printf("button push 5 times\r\n");
+        light_blink_stop();
+        light_blink_start(1, 1500, 1);
+        sleep_ms(1500);
+        delayedMcuResetCb(NULL);
     }
 
     g_appCtx.button[btNum-1].ctn = 0;
