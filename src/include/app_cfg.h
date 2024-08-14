@@ -69,7 +69,7 @@ extern "C" {
 #define DEBUG_REPORTING                 OFF
 #define DEBUG_SMOKE                     ON
 #define DEBUG_BATTERY                   ON
-#define DEBUG_PM                        ON
+#define DEBUG_PM                        OFF
 #define DEBUG_OTA                       OFF
 #define DEBUG_STA_STATUS                OFF
 
