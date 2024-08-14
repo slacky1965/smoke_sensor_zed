@@ -136,6 +136,7 @@ void user_app_init(void)
     /* register endPoint */
     af_endpointRegister(APP_ENDPOINT1, (af_simple_descriptor_t *)&app_ep1Desc, zcl_rx_handler, NULL);
 
+    zcl_onOffCfgAttr_restore();
     zcl_reportingTabInit();
 
     /* Register ZCL specific cluster information */
@@ -164,6 +165,7 @@ void app_task(void) {
 
 
     if(bdb_isIdle()) {
+        report_handler();
 #if PM_ENABLE
         if(!button_idle() && !smoke_idle()) {
             app_lowPowerEnter();
@@ -180,7 +182,6 @@ void app_task(void) {
             }
             last_light = clock_time();
         }
-        report_handler();
     }
 }
 
