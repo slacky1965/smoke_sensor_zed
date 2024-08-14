@@ -1,4 +1,4 @@
-const {identify, iasZoneAlarm, battery, commandsOnOff, enumLookup, reporting} = require('zigbee-herdsman-converters/lib/modernExtend');
+const {identify, iasZoneAlarm, battery, commandsOnOff, enumLookup, reporting, ota} = require('zigbee-herdsman-converters/lib/modernExtend');
 
 const batteryReporting = {"min": 3600, "max": 0, change: 0};
 
@@ -16,6 +16,7 @@ const definition = {
                  "voltageReportingConfig": {"min": 3600, "max": 0, "change": 0}}),
         commandsOnOff(),
         enumLookup({
+            "access": 'STATE',
             "name": 'switch_type',
             "lookup": {"toggle":0},
             "cluster": 'genOnOffSwitchCfg',
@@ -27,6 +28,7 @@ const definition = {
             "cluster": 'genOnOffSwitchCfg',
             "attribute": 'switchActions',
             "description": 'Actions switch'}),
+        ota(),
         ],
     meta: {},
 };
