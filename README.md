@@ -65,7 +65,16 @@
 Детали, напечатанные на 3D принтере.
 
 [Прокладка для платы](https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/3D/Pad.STL)
+
 [Кронштейн платы](https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/3D/Support_new.STL)
+
+Плата zigbee подключается к заводскому модулю следующим образом - 
+
+* Красный провод (1 контакт разъема CN1) - к +9v - контакт 1 на плате извещателя.
+* Черный провод (2 контакт разъема CN1) - к -9v (или земля) - контакт 2 на плате извещателя.
+* Желтый провод (3 контакт раъема CN1) - контакт К1 на плате извещателя.
+
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/rubej_k1.jpg"/>
 
 
 **Готовое устройство**
