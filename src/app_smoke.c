@@ -31,7 +31,7 @@ static void cmdOnOff(uint8_t endpoint, uint8_t smoke_state) {
 
 
     zcl_getAttrVal(endpoint, ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, ZCL_ATTRID_SWITCH_ACTION, &len, (u8*)&switch_action);
-    //printf("sw config action:%d, state:%d \r\n", switch_action, smoke_state);
+//    printf("sw config action:%d, state:%d \r\n", switch_action, smoke_state);
     switch (switch_action) {
         case ZCL_SWITCH_ACTION_ON_OFF:
             if (smoke_state)
