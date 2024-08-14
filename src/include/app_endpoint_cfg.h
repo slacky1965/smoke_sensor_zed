@@ -7,6 +7,10 @@
 #define APP_ENDPOINT4 0x04
 #define APP_ENDPOINT5 0x05
 
+#ifndef ZCL_ON_OFF_SWITCH_CFG
+#define ZCL_ON_OFF_SWITCH_CFG
+#endif
+
 /**
  *  @brief Defined for basic cluster attributes
  */
@@ -68,7 +72,7 @@ typedef struct {
 typedef struct{
     u8 switchType;
     u8 switchActions;
-} zcl_onOffSwitchCfg;
+} zcl_onOffSwitchCfg_t;
 
 
 extern uint8_t APP_EP1_CB_CLUSTER_NUM;
@@ -81,9 +85,11 @@ extern zcl_pollCtrlAttr_t g_zcl_pollCtrlAttrs;
 //extern zcl_appCfgAttr_t g_zcl_appCfgAttrs;
 extern zcl_iasZoneAttr_t g_zcl_iasZoneAttrs;
 
-
 #define zcl_iasZoneAttrGet()    &g_zcl_iasZoneAttrs
 #define zcl_pollCtrlAttrGet()   &g_zcl_pollCtrlAttrs
+
+nv_sts_t zcl_onOffCfgAttr_save(void);
+nv_sts_t zcl_onOffCfgAttr_restore(void);
 
 
 #endif /* SRC_INCLUDE_APP_ENDPOINT_CFG_H_ */
