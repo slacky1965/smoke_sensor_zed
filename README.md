@@ -63,21 +63,10 @@
 
 пока нет.
 
-**Корпус**
-
-Корпус напечатан на 3D принтере.
-
-<img src="https://raw.githubusercontent.com/slacky1965/electricity_meter_zrd/main/doc/images/box/main_and_cover.png"/>
-
-[STL файл основания](https://raw.githubusercontent.com/slacky1965/electricity_meter_zrd/main/doc/ElectricityMeter_Main1_short.STL)
-
-[STL крышки](https://raw.githubusercontent.com/slacky1965/electricity_meter_zrd/main/doc/ElectricityMeter_Cover_New.STL)
-
-
 **Готовое устройство**
 
-<img src="https://raw.githubusercontent.com/slacky1965/electricity_meter_zrd/main/doc/images/device_3d_box.jpg"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device_3d_box.jpg"/>
 
-<img src="https://raw.githubusercontent.com/slacky1965/electricity_meter_zrd/main/doc/images/device_3d_box.png"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device_3d_box.png"/>
 
 ---
