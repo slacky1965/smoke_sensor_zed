@@ -47,13 +47,13 @@
 
 Схема изделия.
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/Schematic_Smoke_Sensor_TLSR8258.jpg"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/Schematic_Smoke_Sensor_TLSR8258.jpg"/>
 
 **Плата**
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/board_top_empty.png"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/board_top_empty.png"/>
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/board_bottom_empty.png"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/board_bottom_empty.png"/>
 
 На гребенку выведены следующие пины модуля
 
@@ -68,11 +68,11 @@
 
 Плата интегрированна в заводской пожарный дымовой извещатель Рубеж ИП 212-50М2.
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device1.jpg"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/device1.jpg"/>
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device2.jpg"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/device2.jpg"/>
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device3.jpg"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/device3.jpg"/>
 
 ---
 
