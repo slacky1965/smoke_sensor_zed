@@ -8,14 +8,14 @@ _CODE_ZCL_ status_t zcl_onOffSwitchCfg_register(u8 endpoint, u16 manuCode, u8 at
 {
 //	return zcl_registerCluster(endpoint, ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, manuCode, attrNum, attrTbl, NULL, cb);
 	u8 status = ZCL_STA_SUCCESS;
-printf("switchcfg register start \r\n");
+//printf("switchcfg register start \r\n");
     status = zcl_registerCluster(endpoint, ZCL_CLUSTER_GEN_ON_OFF_SWITCH_CONFIG, manuCode, attrNum, attrTbl, NULL, cb);
 
     if(status == ZCL_STA_SUCCESS){
-printf("switchcfg register status  0x%x\r\n", status);
+//printf("switchcfg register status  0x%x\r\n", status);
 //    	zcl_level_startUpCurrentLevel(endpoint);
     }
-printf("switchcfg register status 2  0x%x\r\n", status);
+//printf("switchcfg register status 2  0x%x\r\n", status);
     return status;
 
 }
