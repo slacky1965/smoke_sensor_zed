@@ -132,15 +132,17 @@ static void app_reportAttrTimerStart() {
     }
 }
 
-static void app_reportNoMinLimit(void)
-{
-    if(zcl_reportingEntryActiveNumGet()){
+static void app_reportNoMinLimit(void) {
+
+
+    if(zcl_reportingEntryActiveNumGet()) {
         zclAttrInfo_t *pAttrEntry = NULL;
         uint16_t len = 0;
 
         for(uint8_t i = 0; i < ZCL_REPORTING_TABLE_NUM; i++){
             reportCfgInfo_t *pEntry = &reportingTab.reportCfgInfo[i];
             if(pEntry->used && (pEntry->maxInterval == 0 || ((pEntry->maxInterval != 0xFFFF) && (pEntry->minInterval == 0)))) {
+//                printf("app_reportNoMinLimit()\r\n");
                 //there is no minimum limit
                 pAttrEntry = zcl_findAttribute(pEntry->endPoint, pEntry->clusterID, pEntry->attrID);
                 if(!pAttrEntry){
@@ -201,6 +203,7 @@ void app_reporting_init() {
 }
 
 void report_handler(void) {
+
     if(zb_isDeviceJoinedNwk()) {
 
         if (g_appCtx.timerStopReportEvt) return;
