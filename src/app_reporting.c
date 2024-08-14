@@ -134,7 +134,6 @@ static void app_reportAttrTimerStart() {
 
 static void app_reportNoMinLimit(void) {
 
-
     if(zcl_reportingEntryActiveNumGet()) {
         zclAttrInfo_t *pAttrEntry = NULL;
         uint16_t len = 0;
