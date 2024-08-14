@@ -65,8 +65,12 @@
 
 **Готовое устройство**
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device_3d_box.jpg"/>
+Плата интегрированна в заводской пожарный дымовой извещатель Рубеж ИП 212-50М2.
 
-<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device_3d_box.png"/>
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device1.jpg"/>
+
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device2.jpg"/>
+
+<img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zrd/main/doc/images/device3.jpg"/>
 
 ---
