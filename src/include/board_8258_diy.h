@@ -15,7 +15,10 @@
 #define PULL_WAKEUP_SRC_PC3     PM_PIN_PULLUP_1M
 
 /* tamper switch type 1 - NC, 0 - NO */
+#ifndef TAMPER_SWITCH_NC
 #define TAMPER_SWITCH_NC        0
+#endif
+
 
 /********************* Configure External Battery GPIO ******************************/
 #define VOLTAGE_DETECT_PIN      GPIO_PB1

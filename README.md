@@ -91,7 +91,9 @@
 
 ## <a id="software">Софт</a>
 
-Последнюю прошивку из [репозитория](https://github.com/slacky1965/smoke_sensor_zed) нужно залить в модуль с помощью [github.com/pvvx/TLSRPGM](https://github.com/pvvx/TLSRPGM) или оригинального программатора от Telink.
+Прошивок две. Изначально предполагалось, что микропереключатель на TAMPER будет нормально замкнутым. Но, что-то с ними проблема. И даже в лоте на Али, на котором указано, что это NC, китаец прислал NO. Потому прошивок две - одна под выключатель TAMPER NC, вторая под NO.
+
+Нужную прошивку из [репозитория](https://github.com/slacky1965/smoke_sensor_zed) нужно залить в модуль с помощью [github.com/pvvx/TLSRPGM](https://github.com/pvvx/TLSRPGM) или оригинального программатора от Telink.
 
 <img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/telink_pgm.jpg" alt="Telink PGM"/>
 

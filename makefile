@@ -20,6 +20,15 @@ LIBS := -lzb_ed -ldrivers_8258
 DEVICE_TYPE = -DEND_DEVICE=1
 MCU_TYPE = -DMCU_CORE_8258=1
 BOOT_FLAG = -DMCU_CORE_8258 -DMCU_STARTUP_8258
+TAMPER_SWITCH_TYPE = NO
+ 
+ifeq ($(TAMPER_SWITCH_TYPE),NC)
+	TAMPER_NAME = tamper_nc
+	TAMPER_SWITCH = -DTAMPER_SWITCH_NC=1
+else
+	TAMPER_NAME = tamper_no
+	TAMPER_SWITCH = -DTAMPER_SWITCH_NC=0
+endif
 
 SDK_PATH := ./tl_zigbee_sdk
 SRC_PATH := ./src
@@ -65,7 +74,8 @@ GCC_FLAGS := \
 
 GCC_FLAGS += \
 $(DEVICE_TYPE) \
-$(MCU_TYPE)
+$(MCU_TYPE) \
+$(TAMPER_SWITCH)
 
 OBJ_SRCS := 
 S_SRCS := 
@@ -144,9 +154,9 @@ $(BIN_FILE): $(ELF_FILE)
 	@echo 'Create Flash image (binary format)'
 	@$(OBJCOPY) -v -O binary $(ELF_FILE)  $(BIN_FILE)
 	@python3 $(TL_CHECK) $(BIN_FILE)
-	@cp $(BIN_FILE) $(PROJECT_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
+	@cp $(BIN_FILE) $(PROJECT_NAME)_$(TAMPER_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
 	@echo 'Create zigbee OTA file'
-	@python3 $(MAKE_OTA) -ot $(PROJECT_NAME) $(PROJECT_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
+	@python3 $(MAKE_OTA) -ot $(PROJECT_NAME)_$(TAMPER_NAME) $(PROJECT_NAME)_$(TAMPER_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
 	@echo ' '
 	@echo 'Finished building: $@'
 	@echo ' '
@@ -160,11 +170,11 @@ sizedummy: $(ELF_FILE)
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE) $(ELFS) $(OBJS) $(SIZEDUMMY) $(LST_FILE) $(ELF_FILE) $(PROJECT_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin *.zigbee
+	-$(RM) $(FLASH_IMAGE) $(ELFS) $(OBJS) $(SIZEDUMMY) $(LST_FILE) $(ELF_FILE) 
 	-@echo ' '
 
 clean-project:
-	-$(RM) $(FLASH_IMAGE) $(ELFS) $(SIZEDUMMY) $(LST_FILE) $(ELF_FILE) $(PROJECT_NAME)_$(VERSION_RELEASE).$(VERSION_BUILD).bin *.zigbee
+	-$(RM) $(FLASH_IMAGE) $(ELFS) $(SIZEDUMMY) $(LST_FILE) $(ELF_FILE) 
 	-$(RM) -R $(OUT_PATH)/$(SRC_PATH)/*.o
 	-@echo ' '
 	
