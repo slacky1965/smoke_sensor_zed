@@ -208,7 +208,7 @@
 
 **Штатный режим**
 
-Среднее потребление за 18 минут 6.42 мкА.
+Среднее потребление за 15 минут 8,7 мкА.
 
 <img src="https://raw.githubusercontent.com/slacky1965/smoke_sensor_zed/main/doc/images/ppk2_1.jpg"/>
 
