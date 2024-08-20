@@ -218,7 +218,8 @@
 
 ---
 
-## Home Assistant
+## <a id="home_assistant">Home Assistant</a>
+
 
 В Home Assistant устройство будет выглядеть так.
 
@@ -226,7 +227,7 @@
 
 ---
 
-## Alisa
+## <a id="alisa">Alisa</a>
 
 В Яндекс устройство будет выглядеть так.
 
