@@ -230,9 +230,10 @@ void user_init(bool isRetention)
     app_wakeupPinConfig();
 #endif
 
-    battery_init();
+    battery_init(isRetention);
 
     if(!isRetention){
+
         /* Initialize Stack */
         stack_init();
 

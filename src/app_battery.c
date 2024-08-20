@@ -149,21 +149,24 @@ int32_t batteryCb(void *arg) {
     return 0;
 }
 
-void battery_init() {
+void battery_init(bool isRetention) {
 
     uint8_t adc_calibration[4] = {0};
 
-    flash_read(CFG_ADC_CALIBRATION, 4, adc_calibration);
+    if (!isRetention) {
+        flash_read(CFG_ADC_CALIBRATION, 4, adc_calibration);
 
-    if (adc_calibration[0] == 0x19 && adc_calibration[1] == 0x65) {
+        if (adc_calibration[0] == 0x19 && adc_calibration[1] == 0x65) {
 //        printf("voltage_factor from flash\r\n");
-        voltage_factor = adc_calibration[2];
-        /* voltage_factor should not be 0 */
-        if (voltage_factor == 0) voltage_factor++;
-    } else {
+            voltage_factor = adc_calibration[2];
+            /* voltage_factor should not be 0 */
+            if (voltage_factor == 0) voltage_factor++;
+        } else {
 //        printf("voltage_factor from #define\r\n");
-        voltage_factor = VOLTAGE_FACTOR;
+            voltage_factor = VOLTAGE_FACTOR;
+        }
     }
+
 
     voltage_divisor_en(OFF);
     drv_adc_init();
