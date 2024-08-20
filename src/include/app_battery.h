@@ -8,6 +8,6 @@
 #define ADC_CALIBRATION         0x19657800
 
 int32_t batteryCb(void *arg);
-void battery_init();
+void battery_init(bool isRetention);
 
 #endif /* SRC_INCLUDE_APP_BATTERY_H_ */
