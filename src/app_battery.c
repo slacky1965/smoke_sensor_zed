@@ -5,6 +5,8 @@
 
 #define VOLTAGE_FACTOR  120
 
+static uint8_t voltage_factor = VOLTAGE_FACTOR;
+
 /*
  * 9v--[200k]-----[100k]--
  *             |         |
@@ -85,10 +87,10 @@ int32_t batteryCb(void *arg) {
     drv_adc_enable(OFF);
     voltage_divisor_en(OFF);
 
-    if ((voltage_raw * 3) < VOLTAGE_FACTOR) {
+    if ((voltage_raw * 3) < voltage_factor) {
         voltage_9v = 0;
     } else {
-        voltage_9v = voltage_raw*3-VOLTAGE_FACTOR;
+        voltage_9v = voltage_raw*3-voltage_factor;
     }
 
     if (voltage_9v % 100 >= 50) {
@@ -148,6 +150,20 @@ int32_t batteryCb(void *arg) {
 }
 
 void battery_init() {
+
+    uint8_t adc_calibration[4] = {0};
+
+    flash_read(CFG_ADC_CALIBRATION, 4, adc_calibration);
+
+    if (adc_calibration[0] == 0x19 && adc_calibration[1] == 0x65) {
+//        printf("voltage_factor from flash\r\n");
+        voltage_factor = adc_calibration[2];
+        /* voltage_factor should not be 0 */
+        if (voltage_factor == 0) voltage_factor++;
+    } else {
+//        printf("voltage_factor from #define\r\n");
+        voltage_factor = VOLTAGE_FACTOR;
+    }
 
     voltage_divisor_en(OFF);
     drv_adc_init();
