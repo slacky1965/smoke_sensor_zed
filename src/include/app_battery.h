@@ -5,6 +5,8 @@
 #define MIN_VBAT_MV             7000            /* 7000 mV - > battery = 0%           */
 #define BATTERY_TIMER_INTERVAL  TIMEOUT_1HOUR
 
+#define ADC_CALIBRATION         0x19657800
+
 int32_t batteryCb(void *arg);
 void battery_init();
 
