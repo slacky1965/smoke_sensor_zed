@@ -52,12 +52,11 @@ static uint8_t voltage_factor = VOLTAGE_FACTOR;
  *  2210 * 3 - VOLTAGE_FACTOR = 6510
  */
 
-
-
 static void voltage_divisor_en(uint8_t on) {
     if (on) drv_gpio_write(VOLTAGE_DIVISOR_PIN_EN, ON);
     else drv_gpio_write(VOLTAGE_DIVISOR_PIN_EN, OFF);
 }
+
 // 2200..3100 mv - 0..100%
 static uint8_t get_battery_level(uint16_t battery_mv) {
     /* Zigbee 0% - 0x0, 50% - 0x64, 100% - 0xc8 */
@@ -156,7 +155,7 @@ void battery_init(bool isRetention) {
     if (!isRetention) {
         flash_read(CFG_ADC_CALIBRATION, 4, adc_calibration);
 
-        if (adc_calibration[0] == 0x19 && adc_calibration[1] == 0x65) {
+        if (adc_calibration[0] == ADC_CALIB_FLAG1 && adc_calibration[1] == ADC_CALIB_FLAG2) {
 #if UART_PRINTF_MODE && DEBUG_BATTERY
             printf("voltage_factor from flash\r\n");
 #endif
