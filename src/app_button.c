@@ -3,40 +3,55 @@
 
 #include "app_main.h"
 
-static void buttonKeepPressed(uint8_t btNum) {
-    g_appCtx.button[btNum-1].state = APP_FACTORY_NEW_DOING;
-    g_appCtx.button[btNum-1].ctn = 0;
+//static void buttonKeepPressed(uint8_t btNum) {
+//    g_appCtx.button[btNum-1].state = APP_FACTORY_NEW_DOING;
+//    g_appCtx.button[btNum-1].ctn = 0;
+//
+//    if(btNum == VK_SW1) {
+////        printf("VK_SW1. 5 sec. Factory reset\r\n");
+//        light_blink_stop();
+//        light_blink_start(1, 1500, 1);
+//        delayedFactoryResetCb(NULL);
+//    }
+//}
 
-    if(btNum == VK_SW1) {
-//        printf("VK_SW1. 5 sec. Factory reset\r\n");
-        light_blink_stop();
-        light_blink_start(1, 1500, 1);
-        delayedFactoryResetCb(NULL);
-    }
-}
 
-
-static void buttonSinglePressed(uint8_t btNum) {
-
-//    printf("Command single click\r\n");
-
-    if (btNum == VK_SW1) {
-//        printf("Single pressed SW1\r\n");
-        batteryCb(NULL);
-        if (!g_appCtx.timerForcedReportEvt) {
-            g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
-        }
-    }
-}
+//static void buttonSinglePressed(uint8_t btNum) {
+//
+////    printf("Command single click\r\n");
+//
+//    if (btNum == VK_SW1) {
+////        printf("Single pressed SW1\r\n");
+//        batteryCb(NULL);
+//        if (!g_appCtx.timerForcedReportEvt) {
+//            g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
+//        }
+//    }
+//}
 
 static void buttonCheckCommand(uint8_t btNum) {
     g_appCtx.button[btNum-1].state = APP_STATE_NORMAL;
 
     if (g_appCtx.button[btNum-1].ctn == 1) {
-        buttonSinglePressed(btNum);
+#if UART_PRINTF_MODE && DEBUG_BUTTON
+        printf("Button push 1 time\r\n");
+#endif
+        batteryCb(NULL);
+        if (!g_appCtx.timerForcedReportEvt) {
+            g_appCtx.timerForcedReportEvt = TL_ZB_TIMER_SCHEDULE(forcedReportCb, NULL, TIMEOUT_1SEC);
+        }
+//        buttonSinglePressed(btNum);
+    } else if (g_appCtx.button[btNum-1].ctn == 3) {
+#if UART_PRINTF_MODE && DEBUG_BUTTON
+        printf("Button push 3 times\r\n");
+#endif
+        light_blink_stop();
+        light_blink_start(1, 1500, 1);
+        delayedFactoryResetCb(NULL);
     } else if (g_appCtx.button[btNum-1].ctn == 5) {
-        //reboot
-//        printf("button push 5 times\r\n");
+#if UART_PRINTF_MODE && DEBUG_BUTTON
+        printf("Button push 5 times\r\n");
+#endif
         light_blink_stop();
         light_blink_start(1, 1500, 1);
         sleep_ms(1500);
@@ -116,7 +131,7 @@ void button_handler(void) {
     for (uint8_t i = 0; i < MAX_BUTTON_NUM; i++) {
         if (g_appCtx.button[i].state == APP_FACTORY_NEW_SET_CHECK) {
             if(clock_time_exceed(g_appCtx.button[i].pressed_time, TIMEOUT_TICK_5SEC)) {
-                buttonKeepPressed(i+1);
+//                buttonKeepPressed(i+1);
             }
         }
 
