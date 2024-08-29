@@ -150,16 +150,17 @@ int32_t batteryCb(void *arg) {
 
 void battery_init(bool isRetention) {
 
-    uint8_t adc_calibration[4] = {0};
+    adc_calibration_t adc_calibration = {0};
 
     if (!isRetention) {
-        flash_read(CFG_ADC_CALIBRATION, 4, adc_calibration);
 
-        if (adc_calibration[0] == ADC_CALIB_FLAG1 && adc_calibration[1] == ADC_CALIB_FLAG2) {
+        flash_read(CFG_ADC_CALIBRATION, 4, (uint8_t*)&adc_calibration);
+
+        if (adc_calibration.id == ADC_CALIBRATION_ID) {
 #if UART_PRINTF_MODE && DEBUG_BATTERY
             printf("voltage_factor from flash\r\n");
 #endif
-            voltage_factor = adc_calibration[2];
+            voltage_factor = adc_calibration.voltage_factor;
             /* voltage_factor should not be 0 */
             if (voltage_factor == 0) voltage_factor++;
         } else {
