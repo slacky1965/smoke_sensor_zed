@@ -6,6 +6,8 @@
 #define BATTERY_TIMER_INTERVAL  TIMEOUT_1HOUR
 
 #define ADC_CALIBRATION         0x19657800
+#define ADC_CALIB_FLAG1         0x19
+#define ADC_CALIB_FLAG2         0x65
 
 int32_t batteryCb(void *arg);
 void battery_init(bool isRetention);
