@@ -41,14 +41,18 @@ int32_t poll_rateAppCb(void *arg) {
 
 int32_t delayedMcuResetCb(void *arg) {
 
-    //printf("mcu reset\r\n");
+#if UART_PRINTF_MODE
+    printf("MCU reset\r\n");
+#endif
     zb_resetDevice();
     return -1;
 }
 
 int32_t delayedFactoryResetCb(void *arg) {
 
-    //printf("factory reset\r\n");
+#if UART_PRINTF_MODE
+    printf("Factory Reset\r\n");
+#endif
     zb_resetDevice2FN();
 //    zb_factoryReset();
 //    //sleep_ms(500);
