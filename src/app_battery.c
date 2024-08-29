@@ -158,14 +158,14 @@ void battery_init(bool isRetention) {
 
         if (adc_calibration[0] == 0x19 && adc_calibration[1] == 0x65) {
 #if UART_PRINTF_MODE && DEBUG_BATTERY
-        printf("voltage_factor from flash\r\n");
+            printf("voltage_factor from flash\r\n");
 #endif
             voltage_factor = adc_calibration[2];
             /* voltage_factor should not be 0 */
             if (voltage_factor == 0) voltage_factor++;
         } else {
 #if UART_PRINTF_MODE && DEBUG_BATTERY
-        printf("voltage_factor from #define\r\n");
+            printf("voltage_factor from #define\r\n");
 #endif
             voltage_factor = VOLTAGE_FACTOR;
         }
