@@ -5,6 +5,7 @@
 #define TIMEOUT_TICK_200MS  200*1000        /* timeout 200 ms   */
 #define TIMEOUT_TICK_250MS  250*1000        /* timeout 250 ms   */
 #define TIMEOUT_TICK_1SEC   1000*1000       /* timeout 1 sec    */
+#define TIMEOUT_TICK_2SEC   2*1000*1000     /* timeout 2 sec    */
 #define TIMEOUT_TICK_5SEC   5*1000*1000     /* timeout 5 sec    */
 #define TIMEOUT_TICK_10SEC  10*1000*1000    /* timeout 10 sec   */
 #define TIMEOUT_TICK_15SEC  15*1000*1000    /* timeout 15 sec   */
