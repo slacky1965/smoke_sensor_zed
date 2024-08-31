@@ -4,6 +4,8 @@
 #include "app_main.h"
 
 #define VOLTAGE_FACTOR  120
+#define VF_ADDRESS      (CFG_PRE_INSTALL_CODE + 0x100)
+#define ADC_CALIBRATION_ID      0x1965
 
 static uint8_t voltage_factor = VOLTAGE_FACTOR;
 
@@ -154,7 +156,7 @@ void battery_init(bool isRetention) {
 
     if (!isRetention) {
 
-        flash_read(CFG_ADC_CALIBRATION, 4, (uint8_t*)&adc_calibration);
+        flash_read(VF_ADDRESS, 4, (uint8_t*)&adc_calibration);
 
         if (adc_calibration.id == ADC_CALIBRATION_ID) {
 #if UART_PRINTF_MODE && DEBUG_BATTERY
