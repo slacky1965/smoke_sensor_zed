@@ -29,12 +29,11 @@ int32_t poll_rateAppCb(void *arg) {
 
     uint32_t poll_rate = zb_getPollRate();
 
-    if (poll_rate == g_appCtx.long_poll) {
-        zb_setPollRate(g_appCtx.short_poll);
-        return TIMEOUT_30SEC;
+    if (poll_rate != g_appCtx.long_poll) {
+        zb_setPollRate(g_appCtx.long_poll);
+//        zb_setPollRate(g_appCtx.short_poll);
+//        return TIMEOUT_30SEC;
     }
-
-    zb_setPollRate(g_appCtx.long_poll);
 
     return g_appCtx.long_poll;
 }
