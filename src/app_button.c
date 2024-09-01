@@ -7,6 +7,13 @@ static void buttonKeepPressed(uint8_t btNum) {
     g_appCtx.button[btNum-1].state = APP_FACTORY_NEW_DOING;
     g_appCtx.button[btNum-1].ctn = 0;
 
+    if (g_appCtx.timerPollRateEvt) {
+        TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
+    }
+    zb_setPollRate(g_appCtx.short_poll);
+    g_appCtx.timerPollRateEvt = TL_ZB_TIMER_SCHEDULE(poll_rateAppCb, NULL, TIMEOUT_1MIN);
+
+
     if(btNum == VK_SW1) {
 #if UART_PRINTF_MODE && DEBUG_BUTTON
         printf("The button was keep pressed for 2 seconds\r\n");
@@ -19,6 +26,12 @@ static void buttonKeepPressed(uint8_t btNum) {
 
 static void buttonCheckCommand(uint8_t btNum) {
     g_appCtx.button[btNum-1].state = APP_STATE_NORMAL;
+
+    if (g_appCtx.timerPollRateEvt) {
+        TL_ZB_TIMER_CANCEL(&g_appCtx.timerPollRateEvt);
+    }
+    zb_setPollRate(g_appCtx.short_poll);
+    g_appCtx.timerPollRateEvt = TL_ZB_TIMER_SCHEDULE(poll_rateAppCb, NULL, TIMEOUT_20SEC);
 
     if (g_appCtx.button[btNum-1].ctn == 1) {
 #if UART_PRINTF_MODE && DEBUG_BUTTON
