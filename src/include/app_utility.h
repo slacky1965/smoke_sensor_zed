@@ -20,6 +20,7 @@
 #define TIMEOUT_10SEC       10   * 1000     /* timeout 10 sec   */
 #define TIMEOUT_15SEC       15   * 1000     /* timeout 15 sec   */
 #define TIMEOUT_30SEC       30   * 1000     /* timeout 30 sec   */
+#define TIMEOUT_20SEC       20   * 1000     /* timeout 20 sec   */
 #define TIMEOUT_1MIN        60   * 1000     /* timeout 1 min    */
 #define TIMEOUT_2MIN        120  * 1000     /* timeout 2 min    */
 #define TIMEOUT_5MIN        300  * 1000     /* timeout 5 min    */
