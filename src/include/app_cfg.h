@@ -63,13 +63,13 @@ extern "C" {
 #include "version_cfg.h"
 
 /* Debug mode config */
-#define	UART_PRINTF_MODE                ON
+#define	UART_PRINTF_MODE                OFF
 #define USB_PRINTF_MODE                 OFF
 
-#define DEBUG_BUTTON                    ON
+#define DEBUG_BUTTON                    OFF
 #define DEBUG_REPORTING                 OFF
-#define DEBUG_SMOKE                     ON
-#define DEBUG_BATTERY                   ON
+#define DEBUG_SMOKE                     OFF
+#define DEBUG_BATTERY                   OFF
 #define DEBUG_PM                        OFF
 #define DEBUG_OTA                       OFF
 #define DEBUG_STA_STATUS                OFF
