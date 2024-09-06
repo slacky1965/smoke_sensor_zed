@@ -22,12 +22,15 @@ MCU_TYPE = -DMCU_CORE_8258=1
 BOOT_FLAG = -DMCU_CORE_8258 -DMCU_STARTUP_8258
 FLASH_SIZE = 512K
 TAMPER_SWITCH_TYPE = NO
+
+TAMPER_NO = tamper_no
+TAMPER_NC = tamper_nc
  
 ifeq ($(TAMPER_SWITCH_TYPE),NC)
-	TAMPER_NAME = tamper_nc
+	TAMPER_NAME = $(TAMPER_NC)
 	TAMPER_SWITCH = -DTAMPER_SWITCH_NC=1
 else
-	TAMPER_NAME = tamper_no
+	TAMPER_NAME = $(TAMPER_NO)
 	TAMPER_SWITCH = -DTAMPER_SWITCH_NC=0
 endif
 
@@ -132,6 +135,12 @@ all: pre-build main-build
 
 flash: $(BIN_FILE)
 	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a-100 -s -m we 0 $(BIN_FILE)
+	
+flash-tamper-nc:
+	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a-100 -s -m we 0 $(PROJECT_NAME)_$(TAMPER_NC)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
+		
+flash-tamper-no:
+	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a-100 -s -m we 0 $(PROJECT_NAME)_$(TAMPER_NO)_$(VERSION_RELEASE).$(VERSION_BUILD).bin
 	
 flash-vf: $(BIN_FILE)
 	@python3 $(TOOLS_PATH)/TlsrPgm.py -p$(DOWNLOAD_PORT) -z11 -a-100 -s -m wf $(VF_ADDRESS) voltage_factor.bin
