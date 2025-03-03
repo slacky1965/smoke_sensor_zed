@@ -28,8 +28,7 @@ const definition = {
             "cluster": 'genOnOffSwitchCfg',
             "attribute": 'switchActions',
             "description": 'Actions switch'}),
-        ],
-		
+        ],		
     meta: {},
     ota: true,
 };
